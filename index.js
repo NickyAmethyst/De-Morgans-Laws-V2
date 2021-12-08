@@ -95,7 +95,7 @@ Vbar = function(x, color){
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(x, 0);
-        ctx.lineTo(x, 200);
+        ctx.lineTo(x, 150);
         ctx.stroke();
     }
 }
@@ -137,7 +137,7 @@ Interval = function(x1, x2, y, color1, color2, name) {
         ctx.moveTo(0, y);
         ctx.lineTo(this.min, y);
         ctx.moveTo(this.max, y);
-        ctx.lineTo(400, y);
+        ctx.lineTo(300, y);
         ctx.stroke();
         ctx.beginPath();
         ctx.lineWidth = 5;
@@ -145,6 +145,8 @@ Interval = function(x1, x2, y, color1, color2, name) {
         ctx.moveTo(this.min, y);
         ctx.lineTo(this.max, y);
         ctx.stroke();
+        ctx.lineWidth = 1;
+        ctx.strokeText(name, 310, y+2.5)
     }
 }
 
@@ -166,7 +168,7 @@ let Intersection = function(int1, int2, y, color1, color2) {
         ctx.moveTo(0, y);
         ctx.lineTo(this.min, y);
         ctx.moveTo(this.max, y);
-        ctx.lineTo(400, y);
+        ctx.lineTo(300, y);
         ctx.stroke();
         ctx.beginPath();
         ctx.lineWidth = 5;
@@ -174,6 +176,8 @@ let Intersection = function(int1, int2, y, color1, color2) {
         ctx.moveTo(this.min, y);
         ctx.lineTo(this.max, y);
         ctx.stroke();
+        ctx.lineWidth = 1;
+        ctx.strokeText("A intersection B", 310, y+2.5)
     }
 }
 
@@ -207,7 +211,8 @@ let Union = function(int1, int2, y, color1, color2) {
             drawint(namedsorted[0][0], namedsorted[1][0], y, color1, color2)
             drawint(namedsorted[2][0], namedsorted[3][0], y, color1, '#00000000')
         }
-
+        ctx.lineWidth = 1;
+        ctx.strokeText("A union B", 310, y+2.5)
         // ctx.beginPath();
         // ctx.strokeStyle = color2;
         // ctx.lineWidth = 5;
@@ -225,10 +230,10 @@ let Union = function(int1, int2, y, color1, color2) {
     }
 }
 
-let intA = new Interval(a1.x, a2.x, 20, 'black', '#999', 'A')
-let intB = new Interval(b1.x, b2.x, 40, 'black', '#999', 'B')
-let intersectionAB = new Intersection(intA, intB, 70, 'black', '#999')
-let unionAB = new Union(intA, intB, 80, 'black', '#999')
+let intA = new Interval(a1.x, a2.x, 30, 'black', '#999', 'A')
+let intB = new Interval(b1.x, b2.x, 50, 'black', '#999', 'B')
+let intersectionAB = new Intersection(intA, intB, 90, 'black', '#999')
+let unionAB = new Union(intA, intB, 110, 'black', '#999')
 
 function drawint(min, max, y, color1, color2) {
         ctx.beginPath();
@@ -237,7 +242,7 @@ function drawint(min, max, y, color1, color2) {
         ctx.moveTo(0, y);
         ctx.lineTo(min, y);
         ctx.moveTo(max, y);
-        ctx.lineTo(400, y);
+        ctx.lineTo(300, y);
         ctx.stroke();
         ctx.beginPath();
         ctx.lineWidth = 5;
