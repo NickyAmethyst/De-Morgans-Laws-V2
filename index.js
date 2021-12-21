@@ -1,7 +1,14 @@
+//instantiate canvase object
 const screen = document.getElementById('screen');
-let selected = false;
 const ctx = screen.getContext('2d')
 
+// initialize state variable for event listener
+let selected = false;
+
+// The following event listeners, 'mousedown', 'mousemove',
+// and 'mouseup' are used to track curser position data 
+// so that the 'Vbar' objects that demarkate the intervals
+// can be clicked and dragged
 screen.addEventListener('mousedown', (event) => {
     a1OffSet = Math.abs(event.offsetX - a1.x);
     a2OffSet = Math.abs(event.offsetX - a2.x);
@@ -86,16 +93,17 @@ window.addEventListener('mouseup', (event) => {
         }
 })
 
-Vbar = function(x, color){
+// 'Vbar' object constructor function. 'Vbar' objects 
+let Vbar = function(x, color){
     this.x = x;
     this.selected = false;
     curentX = this.x
-    this.draw = function(x) {
+    this.draw = function() {
         ctx.strokeStyle = color;
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, 150);
+        ctx.moveTo(this.x, 0);
+        ctx.lineTo(this.x, 150);
         ctx.stroke();
     }
 }
@@ -105,7 +113,8 @@ let a2 = new Vbar(130, "purple");
 let b1 = new Vbar(80, 'blue')
 let b2 = new Vbar(180, 'blue')
 
-Interval = function(x1, x2, y, color1, color2, name) {
+//  'Interval' Object constructor function
+let Interval = function(x1, x2, y, color1, color2, name) {
     this.x1 = x1;
     this.x2 = x2;
     this.name = name;
@@ -131,27 +140,16 @@ Interval = function(x1, x2, y, color1, color2, name) {
             this.min = this.x1;
             this.max = this.x2;
         }
-        ctx.beginPath();
-        ctx.strokeStyle = color2;
-        ctx.lineWidth = 5;
-        ctx.moveTo(0, y);
-        ctx.lineTo(this.min, y);
-        ctx.moveTo(this.max, y);
-        ctx.lineTo(300, y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = color1;
-        ctx.moveTo(this.min, y);
-        ctx.lineTo(this.max, y);
-        ctx.stroke();
+        drawint(this.min, this.max, y, color1, color2)
         ctx.lineWidth = 1;
         ctx.strokeText(name, 310, y+2.5)
     }
 }
 
+//  'Intersection' Object constructor function
 let Intersection = function(int1, int2, y, color1, color2) {
     this.draw = function() {
+        // Determine which points are the intersection endpoints
         let points = [int1.x1, int1.x2, int2.x1, int2.x2];
         let endpoints = []
         points.forEach( function(point) {
@@ -161,26 +159,13 @@ let Intersection = function(int1, int2, y, color1, color2) {
         })
         this.min = Math.min(endpoints[0], endpoints[1])
         this.max = Math.max(endpoints[0], endpoints[1])
-        
-        ctx.beginPath();
-        ctx.strokeStyle = color2;
-        ctx.lineWidth = 5;
-        ctx.moveTo(0, y);
-        ctx.lineTo(this.min, y);
-        ctx.moveTo(this.max, y);
-        ctx.lineTo(300, y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = color1;
-        ctx.moveTo(this.min, y);
-        ctx.lineTo(this.max, y);
-        ctx.stroke();
+        drawint(this.min, this.max, y, color1, color2)
         ctx.lineWidth = 1;
         ctx.strokeText("A intersection B", 310, y+2.5)
     }
 }
 
+//  'Union' object constructor function
 let Union = function(int1, int2, y, color1, color2) {
     this.draw = function() {
         let namedpoints = [[int1.x1, int1.name], [int1.x2, int1.name], [int2.x1, int2.name], [int2.x2, int2.name]];
@@ -196,7 +181,6 @@ let Union = function(int1, int2, y, color1, color2) {
         })
         console.log(points)
         console.log(typeof points[0])
-        
 
         if(namedsorted[0][1] === namedsorted[3][1]) {
             this.min = namedsorted[0][0];
@@ -213,28 +197,17 @@ let Union = function(int1, int2, y, color1, color2) {
         }
         ctx.lineWidth = 1;
         ctx.strokeText("A union B", 310, y+2.5)
-        // ctx.beginPath();
-        // ctx.strokeStyle = color2;
-        // ctx.lineWidth = 5;
-        // ctx.moveTo(0, y);
-        // ctx.lineTo(this.min, y);
-        // ctx.moveTo(this.max, y);
-        // ctx.lineTo(400, y);
-        // ctx.stroke();
-        // ctx.beginPath();
-        // ctx.lineWidth = 5;
-        // ctx.strokeStyle = color1;
-        // ctx.moveTo(this.min, y);
-        // ctx.lineTo(this.max, y);
-        // ctx.stroke();
     }
 }
 
+
+//  instantiating component objects for user interface
 let intA = new Interval(a1.x, a2.x, 30, 'black', '#999', 'A')
 let intB = new Interval(b1.x, b2.x, 50, 'black', '#999', 'B')
 let intersectionAB = new Intersection(intA, intB, 90, 'black', '#999')
 let unionAB = new Union(intA, intB, 110, 'black', '#999')
 
+// Function to draw an interval and its complement
 function drawint(min, max, y, color1, color2) {
         ctx.beginPath();
         ctx.strokeStyle = color2;
@@ -254,13 +227,14 @@ function drawint(min, max, y, color1, color2) {
 
 function drawScreen() {
     ctx.clearRect(0, 0, 400, 200);
-    a1.draw(a1.x)
-    a2.draw(a2.x)
-    b1.draw(b1.x)
-    b2.draw(b2.x)
+    a1.draw()
+    a2.draw()
+    b1.draw()
+    b2.draw()
     intA.draw()
     intB.draw()
     intersectionAB.draw();
     unionAB.draw();
 }
+
 drawScreen();
