@@ -7,119 +7,95 @@ let selected = false;
 
 // The following event listeners, 'mousedown', 'mousemove',
 // and 'mouseup' are used to track curser position data 
-// so that the 'Vbar' objects that demarkate the intervals
+// so that the 'Interval' objects that demarkate the intervals
 // can be clicked and dragged
 screen.addEventListener('mousedown', (event) => {
-    a1OffSet = Math.abs(event.offsetX - a1.x);
-    a2OffSet = Math.abs(event.offsetX - a2.x);
-    b1OffSet = Math.abs(event.offsetX - b1.x);
-    b2OffSet = Math.abs(event.offsetX - b2.x);
-    minOffset = Math.min(a1OffSet, a2OffSet, b1OffSet, b2OffSet)
-    if (a1OffSet === minOffset) {
-        a1.selected = true;
-        a1.x = event.offsetX;
-        intA.x1 = a1.x;
+    ax1_OffSet = Math.abs(event.offsetX - intA.x1);
+    ax2_OffSet = Math.abs(event.offsetX - intA.x2);
+    bx1_OffSet = Math.abs(event.offsetX - intB.x1);
+    bx2_OffSet = Math.abs(event.offsetX - intB.x2);
+    minOffset = Math.min(ax1_OffSet, ax2_OffSet, bx1_OffSet, bx2_OffSet)
+    if (ax1_OffSet === minOffset) {
+        intA.x1_selected = true;
+        intA.x1 = event.offsetX;
+        //intA.x1 = a1.x;
         drawScreen()
     }
-    if (a2OffSet === minOffset) {
-        a2.selected = true;
-        a2.x = event.offsetX;
-        intA.x2 = a2.x;
+    if (ax2_OffSet === minOffset) {
+        intA.x2_selected = true;
+        intA.x2 = event.offsetX;
+        //intA.x2 = a2.x;
         drawScreen();
     }
-    if (b1OffSet === minOffset) {
-        b1.selected = true;
-        b1.x = event.offsetX;
-        intB.x1 = b1.x;
+    if (bx1_OffSet === minOffset) {
+        intB.x1_selected = true;
+        intB.x1 = event.offsetX;
+        //intB.x1 = b1.x;
         drawScreen();
     }
-    if (b2OffSet === minOffset) {
-        b2.selected = true;
-        b2.x = event.offsetX;
-        intB.x2 = b2.x;
+    if (bx2_OffSet === minOffset) {
+        intB.x2_selected = true;
+        intB.x2 = event.offsetX;
+        //intB.x2 = b2.x;
         drawScreen();
     }
 })
 
 screen.addEventListener("mousemove", (event) => {
         //code to draw new vBar object
-        if (a1.selected){
-            a1.x = event.offsetX;
-            intA.x1 = a1.x;
+        if (intA.x1_selected){
+            intA.x1 = event.offsetX;
+            //intA.x1 = a1.x;
             drawScreen()
         }
-        if (a2.selected){
-            a2.x = event.offsetX;
-            intA.x2 = a2.x;
+        if (intA.x2_selected){
+            intA.x2 = event.offsetX;
+            //intA.x2 = a2.x;
             drawScreen();
         }
-        if (b1.selected){
-            b1.x = event.offsetX;
-            intB.x1 = b1.x;
+        if (intB.x1_selected){
+            intB.x1 = event.offsetX;
+            //intB.x1 = b1.x;
             drawScreen()
         }
-        if (b2.selected){
-            b2.x = event.offsetX;
-            intB.x2 = b2.x;
+        if (intB.x2_selected){
+            intB.x2 = event.offsetX;
+            //intB.x2 = b2.x;
             drawScreen();
         }
 })
 
 window.addEventListener('mouseup', (event) => {
-        //code to draw new vbar object
-        if (a1.selected){
-            a1.x = event.offsetX;
-            intA.x1 = a1.x;
+        //code to draw new interval object
+        if (intA.x1_selected){
+            intA.x1 = event.offsetX;
             drawScreen()
-            a1.selected = false;
+            intA.x1_selected = false;
         }
-        if (a2.selected){
-            a2.x = event.offsetX;
-            intA.x2 = a2.x;
+        if (intA.x2_selected){
+            intA.x2 = event.offsetX;
             drawScreen();
-            a2.selected = false;
+            intA.x2_selected = false;
         }
-        if (b1.selected){
-            b1.x = event.offsetX;
-            intB.x1 = b1.x;
+        if (intB.x1_selected){
+            intB.x1 = event.offsetX;
             drawScreen()
-            b1.selected = false;
+            intB.x1_selected = false;
         }
-        if (b2.selected){
-            b2.x = event.offsetX;
-            intB.x2 = b2.x;
+        if (intB.x2_selected){
+            intB.x2 = event.offsetX;
             drawScreen();
-            b2.selected = false;
+            intB.x2_selected = false;
         }
 })
-
-// 'Vbar' object constructor function. 'Vbar' objects 
-let Vbar = function(x, color){
-    this.x = x;
-    this.selected = false;
-    //curentX = this.x
-    this.draw = function() {
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(this.x, 0);
-        ctx.lineTo(this.x, 150);
-        ctx.stroke();
-    }
-}
-let a1 = new Vbar(30, 'purple')
-let a2 = new Vbar(130, "purple");
-
-let b1 = new Vbar(80, 'blue')
-let b2 = new Vbar(180, 'blue')
 
 //  'Interval' Object constructor function
 let Interval = function(x1, x2, y, color1, color2, color_vbar, name) {
     this.x1 = x1;
     this.x2 = x2;
     this.name = name;
-    this.min_selected = false
-    this.max_selected = false
+    this.x1_selected = false
+    this.x2_selected = false
     
     this.contains = function(a) {
         if ( this.min <= a && a <= this.max ){
@@ -146,8 +122,12 @@ let Interval = function(x1, x2, y, color1, color2, color_vbar, name) {
         ctx.strokeStyle = color_vbar;
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.moveTo(this.x, 0);
-        ctx.lineTo(this.x, 150);
+        ctx.moveTo(this.x1, 0);
+        ctx.lineTo(this.x1, 150);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(this.x2, 0);
+        ctx.lineTo(this.x2, 150);
         ctx.stroke();
 
         ctx.lineWidth = 1;
@@ -211,8 +191,8 @@ let Union = function(int1, int2, y, color1, color2) {
 
 
 //  instantiating component objects for user interface
-let intA = new Interval(a1.x, a2.x, 30, 'black', '#999','purple', 'A')
-let intB = new Interval(b1.x, b2.x, 50, 'black', '#999','blue', 'B')
+let intA = new Interval(30, 130, 30, 'black', '#999','purple', 'A')
+let intB = new Interval(80, 180, 50, 'black', '#999','blue', 'B')
 let intersectionAB = new Intersection(intA, intB, 90, 'black', '#999')
 let unionAB = new Union(intA, intB, 110, 'black', '#999')
 
@@ -236,10 +216,6 @@ function drawint(min, max, y, color1, color2) {
 
 function drawScreen() {
     ctx.clearRect(0, 0, 400, 200);
-    a1.draw()
-    a2.draw()
-    b1.draw()
-    b2.draw()
     intA.draw()
     intB.draw()
     intersectionAB.draw();
