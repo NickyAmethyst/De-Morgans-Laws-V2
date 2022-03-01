@@ -1,5 +1,5 @@
 //instantiate canvase object
-const screen = document.getElementById('screen');
+const screen = document.getElementById('screen')
 const ctx = screen.getContext('2d')
 
 // initialize state variable for event listener
@@ -168,8 +168,6 @@ let Union = function(int1, int2, y, color1, color2) {
                 }
             })
         })
-        console.log(points)
-        console.log(typeof points[0])
 
         if(namedsorted[0][1] === namedsorted[3][1]) {
             this.min = namedsorted[0][0];
@@ -190,7 +188,7 @@ let Union = function(int1, int2, y, color1, color2) {
 }
 
 
-//  instantiating component objects for user interface
+//  instantiating user interface canvas components
 let intA = new Interval(30, 130, 30, 'black', '#999','purple', 'A')
 let intB = new Interval(80, 180, 50, 'black', '#999','blue', 'B')
 let intersectionAB = new Intersection(intA, intB, 90, 'black', '#999')
