@@ -1,2 +1,3 @@
 # De-Morgans-Laws-V2
-updated version after better undersanding of using objects and classes
+This code is hostet on my code pen at https://codepen.io/NickyAmethyst/pen/KKXMgpQ
+where you can interact with the user interface.
